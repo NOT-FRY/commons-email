@@ -235,6 +235,20 @@ public class HtmlEmail extends MultiPartEmail {
             }
         }
 
+        addHtmlContent(bodyContainer, bodyEmbedsContainer);
+
+        if (EmailUtils.isNotEmpty(text)) {
+            msgText = new MimeBodyPart();
+            bodyContainer.addBodyPart(msgText, 0);
+
+            // EMAIL-104: call explicitly setText to use default mime charset
+            // (property "mail.mime.charset") in case none has been set
+            msgText.setText(text, getCharsetName());
+        }
+    }
+
+    private void addHtmlContent(MimeMultipart bodyContainer, MimeMultipart bodyEmbedsContainer) throws MessagingException {
+        MimeBodyPart msgHtml;
         if (EmailUtils.isNotEmpty(html)) {
             msgHtml = new MimeBodyPart();
             bodyContainer.addBodyPart(msgHtml, 0);
@@ -262,15 +276,6 @@ public class HtmlEmail extends MultiPartEmail {
             for (final InlineImage image : inlineEmbeds.values()) {
                 bodyEmbedsContainer.addBodyPart(image.getMimeBodyPart());
             }
-        }
-
-        if (EmailUtils.isNotEmpty(text)) {
-            msgText = new MimeBodyPart();
-            bodyContainer.addBodyPart(msgText, 0);
-
-            // EMAIL-104: call explicitly setText to use default mime charset
-            // (property "mail.mime.charset") in case none has been set
-            msgText.setText(text, getCharsetName());
         }
     }
 

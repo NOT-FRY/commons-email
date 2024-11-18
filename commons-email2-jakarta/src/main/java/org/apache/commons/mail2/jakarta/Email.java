@@ -511,11 +511,7 @@ public abstract class Email {
             message = createMimeMessage(getMailSession());
 
             if (EmailUtils.isNotEmpty(subject)) {
-                if (EmailUtils.isNotEmpty(charset)) {
-                    message.setSubject(subject, charset);
-                } else {
-                    message.setSubject(subject);
-                }
+                message.setSubject(subject,EmailUtils.isNotEmpty(charset) ? charset : (String) null);
             }
 
             // update content type (and encoding)
@@ -539,38 +535,7 @@ public abstract class Email {
                 message.setText("");
             }
 
-            if (fromAddress != null) {
-                message.setFrom(fromAddress);
-            } else if (session.getProperty(EmailConstants.MAIL_SMTP_FROM) == null && session.getProperty(EmailConstants.MAIL_FROM) == null) {
-                throw new EmailException("From address required");
-            }
-
-            if (toList.size() + ccList.size() + bccList.size() == 0) {
-                throw new EmailException("At least one receiver address required");
-            }
-
-            if (!EmailUtils.isEmpty(toList)) {
-                message.setRecipients(Message.RecipientType.TO, toInternetAddressArray(toList));
-            }
-
-            if (!EmailUtils.isEmpty(ccList)) {
-                message.setRecipients(Message.RecipientType.CC, toInternetAddressArray(ccList));
-            }
-
-            if (!EmailUtils.isEmpty(bccList)) {
-                message.setRecipients(Message.RecipientType.BCC, toInternetAddressArray(bccList));
-            }
-
-            if (!EmailUtils.isEmpty(replyList)) {
-                message.setReplyTo(toInternetAddressArray(replyList));
-            }
-
-            if (!EmailUtils.isEmpty(headers)) {
-                for (final Map.Entry<String, String> entry : headers.entrySet()) {
-                    final String foldedValue = createFoldedHeaderValue(entry.getKey(), entry.getValue());
-                    message.addHeader(entry.getKey(), foldedValue);
-                }
-            }
+            setEmailHeaders();
 
             if (message.getSentDate() == null) {
                 message.setSentDate(getSentDate());
@@ -583,6 +548,44 @@ public abstract class Email {
             }
         } catch (final MessagingException e) {
             throw new EmailException(e);
+        }
+    }
+
+    /**
+     * Set the Email headers
+     */
+    private void setEmailHeaders() throws EmailException, MessagingException {
+        if (fromAddress != null) {
+            message.setFrom(fromAddress);
+        } else if (session.getProperty(EmailConstants.MAIL_SMTP_FROM) == null && session.getProperty(EmailConstants.MAIL_FROM) == null) {
+            throw new EmailException("From address required");
+        }
+
+        if (toList.size() + ccList.size() + bccList.size() == 0) {
+            throw new EmailException("At least one receiver address required");
+        }
+
+        if (!EmailUtils.isEmpty(toList)) {
+            message.setRecipients(Message.RecipientType.TO, toInternetAddressArray(toList));
+        }
+
+        if (!EmailUtils.isEmpty(ccList)) {
+            message.setRecipients(Message.RecipientType.CC, toInternetAddressArray(ccList));
+        }
+
+        if (!EmailUtils.isEmpty(bccList)) {
+            message.setRecipients(Message.RecipientType.BCC, toInternetAddressArray(bccList));
+        }
+
+        if (!EmailUtils.isEmpty(replyList)) {
+            message.setReplyTo(toInternetAddressArray(replyList));
+        }
+
+        if (!EmailUtils.isEmpty(headers)) {
+            for (final Map.Entry<String, String> entry : headers.entrySet()) {
+                final String foldedValue = createFoldedHeaderValue(entry.getKey(), entry.getValue());
+                message.addHeader(entry.getKey(), foldedValue);
+            }
         }
     }
 
@@ -794,57 +797,47 @@ public abstract class Email {
      * @since 1.0
      */
     public Session getMailSession() throws EmailException {
-        if (session == null) {
-            final Properties properties = new Properties(System.getProperties());
-            properties.setProperty(EmailConstants.MAIL_TRANSPORT_PROTOCOL, EmailConstants.SMTP);
+        if(session!=null)
+            return session;
 
-            if (EmailUtils.isEmpty(hostName)) {
-                hostName = properties.getProperty(EmailConstants.MAIL_HOST);
-            }
-
-            EmailException.checkNonEmpty(hostName, () -> "Cannot find valid hostname for mail session");
-
-            properties.setProperty(EmailConstants.MAIL_PORT, smtpPort);
-            properties.setProperty(EmailConstants.MAIL_HOST, hostName);
-            properties.setProperty(EmailConstants.MAIL_DEBUG, String.valueOf(debug));
-
-            properties.setProperty(EmailConstants.MAIL_TRANSPORT_STARTTLS_ENABLE, Boolean.toString(isStartTLSEnabled()));
-            properties.setProperty(EmailConstants.MAIL_TRANSPORT_STARTTLS_REQUIRED, Boolean.toString(isStartTLSRequired()));
-
-            properties.setProperty(EmailConstants.MAIL_SMTP_SEND_PARTIAL, Boolean.toString(isSendPartial()));
-            properties.setProperty(EmailConstants.MAIL_SMTPS_SEND_PARTIAL, Boolean.toString(isSendPartial()));
-
-            if (authenticator != null) {
-                properties.setProperty(EmailConstants.MAIL_SMTP_AUTH, "true");
-            }
-
-            if (isSSLOnConnect()) {
-                properties.setProperty(EmailConstants.MAIL_PORT, sslSmtpPort);
-                properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_PORT, sslSmtpPort);
-                properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_CLASS, "javax.net.ssl.SSLSocketFactory");
-                properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_FALLBACK, "false");
-            }
-
-            if ((isSSLOnConnect() || isStartTLSEnabled()) && isSSLCheckServerIdentity()) {
-                properties.setProperty(EmailConstants.MAIL_SMTP_SSL_CHECKSERVERIDENTITY, "true");
-            }
-
-            if (bounceAddress != null) {
-                properties.setProperty(EmailConstants.MAIL_SMTP_FROM, bounceAddress);
-            }
-
-            if (socketTimeout > 0) {
-                properties.setProperty(EmailConstants.MAIL_SMTP_TIMEOUT, Integer.toString(socketTimeout));
-            }
-
-            if (socketConnectionTimeout > 0) {
-                properties.setProperty(EmailConstants.MAIL_SMTP_CONNECTIONTIMEOUT, Integer.toString(socketConnectionTimeout));
-            }
-
-            // changed this (back) to getInstance due to security exceptions
-            // caused when testing using Maven
-            session = Session.getInstance(properties, authenticator);
+        final Properties properties = new Properties(System.getProperties());
+        properties.setProperty(EmailConstants.MAIL_TRANSPORT_PROTOCOL, EmailConstants.SMTP);
+        if (EmailUtils.isEmpty(hostName)) {
+            hostName = properties.getProperty(EmailConstants.MAIL_HOST);
         }
+        EmailException.checkNonEmpty(hostName, () -> "Cannot find valid hostname for mail session");
+        properties.setProperty(EmailConstants.MAIL_PORT, smtpPort);
+        properties.setProperty(EmailConstants.MAIL_HOST, hostName);
+        properties.setProperty(EmailConstants.MAIL_DEBUG, String.valueOf(debug));
+        properties.setProperty(EmailConstants.MAIL_TRANSPORT_STARTTLS_ENABLE, Boolean.toString(isStartTLSEnabled()));
+        properties.setProperty(EmailConstants.MAIL_TRANSPORT_STARTTLS_REQUIRED, Boolean.toString(isStartTLSRequired()));
+        properties.setProperty(EmailConstants.MAIL_SMTP_SEND_PARTIAL, Boolean.toString(isSendPartial()));
+        properties.setProperty(EmailConstants.MAIL_SMTPS_SEND_PARTIAL, Boolean.toString(isSendPartial()));
+        if (authenticator != null) {
+            properties.setProperty(EmailConstants.MAIL_SMTP_AUTH, "true");
+        }
+        if (isSSLOnConnect()) {
+            properties.setProperty(EmailConstants.MAIL_PORT, sslSmtpPort);
+            properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_PORT, sslSmtpPort);
+            properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_CLASS, "javax.net.ssl.SSLSocketFactory");
+            properties.setProperty(EmailConstants.MAIL_SMTP_SOCKET_FACTORY_FALLBACK, "false");
+        }
+        if ((isSSLOnConnect() || isStartTLSEnabled()) && isSSLCheckServerIdentity()) {
+            properties.setProperty(EmailConstants.MAIL_SMTP_SSL_CHECKSERVERIDENTITY, "true");
+        }
+        if (bounceAddress != null) {
+            properties.setProperty(EmailConstants.MAIL_SMTP_FROM, bounceAddress);
+        }
+        if (socketTimeout > 0) {
+            properties.setProperty(EmailConstants.MAIL_SMTP_TIMEOUT, Integer.toString(socketTimeout));
+        }
+        if (socketConnectionTimeout > 0) {
+            properties.setProperty(EmailConstants.MAIL_SMTP_CONNECTIONTIMEOUT, Integer.toString(socketConnectionTimeout));
+        }
+        // changed this (back) to getInstance due to security exceptions
+        // caused when testing using Maven
+        session = Session.getInstance(properties, authenticator);
+
         return session;
     }
 

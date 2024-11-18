@@ -208,8 +208,7 @@ public final class EmailUtils {
                 ch = chars[random.nextInt(gap) + start];
             }
 
-            if (letters && numbers && Character.isLetterOrDigit(ch) || letters && Character.isLetter(ch) || numbers && Character.isDigit(ch)
-                    || !letters && !numbers) {
+            if (isValidChar(ch,letters,numbers)) {
                 buffer.append(ch);
             } else {
                 count++;
@@ -217,6 +216,15 @@ public final class EmailUtils {
         }
 
         return buffer.toString();
+    }
+
+    private static boolean isValidChar(char ch,boolean letters,boolean numbers){
+        boolean checkLetterOrDigits = letters && numbers && Character.isLetterOrDigit(ch);
+        boolean checkLetter = letters && Character.isLetter(ch);
+        boolean checkDigit = numbers && Character.isDigit(ch);
+        boolean checkDefault = !letters && !numbers;
+
+        return checkLetterOrDigits || checkLetter || checkDigit || checkDefault;
     }
 
     /**
