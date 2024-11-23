@@ -179,6 +179,12 @@ public class HtmlEmail extends MultiPartEmail {
      */
     private final Map<String, InlineImage> inlineEmbeds = new HashMap<>();
 
+    private static final String MIME_ALTERNATIVE_SUBTYPE = "alternative";
+
+    private static final String ERROR_NAMES_CANNOT_BE_REBOUND = "; existing names cannot be rebound";
+
+    private static final String ERROR_FILE = "file ";
+
     /**
      * Constructs a new instance.
      */
@@ -209,7 +215,7 @@ public class HtmlEmail extends MultiPartEmail {
 
             // If TEXT body was specified, create a alternative container and add it to the embeds container
             if (EmailUtils.isNotEmpty(text)) {
-                bodyContainer = new MimeMultipart("alternative");
+                bodyContainer = new MimeMultipart(MIME_ALTERNATIVE_SUBTYPE);
                 final BodyPart bodyPart = createBodyPart();
                 try {
                     bodyPart.setContent(bodyContainer);
@@ -226,12 +232,12 @@ public class HtmlEmail extends MultiPartEmail {
             if (!EmailUtils.isEmpty(inlineEmbeds) || isBoolHasAttachments()) {
                 // If both HTML and TEXT bodies are provided, create an alternative
                 // container and add it to the root container
-                bodyContainer = new MimeMultipart("alternative");
+                bodyContainer = new MimeMultipart(MIME_ALTERNATIVE_SUBTYPE);
                 this.addPart(bodyContainer, 0);
             } else {
                 // no attachments or embedded images present, change the mimetype
                 // of the root container (= body container)
-                rootContainer.setSubType("alternative");
+                rootContainer.setSubType(MIME_ALTERNATIVE_SUBTYPE);
             }
         }
 
@@ -317,7 +323,7 @@ public class HtmlEmail extends MultiPartEmail {
                 return inlineImage.getCid();
             }
             throw new EmailException("embedded DataSource '" + name + "' is already bound to name " + inlineImage.getDataSource().toString()
-                    + "; existing names cannot be rebound");
+                    + ERROR_NAMES_CANNOT_BE_REBOUND);
         }
 
         final String cid = EmailUtils.toLower(EmailUtils.randomAlphabetic(CID_LENGTH));
@@ -413,18 +419,18 @@ public class HtmlEmail extends MultiPartEmail {
                 return inlineImage.getCid();
             }
             throw new EmailException(
-                    "embedded name '" + file.getName() + "' is already bound to file " + existingFilePath + "; existing names cannot be rebound");
+                    "embedded name '" + file.getName() + "' is already bound to file " + existingFilePath + ERROR_NAMES_CANNOT_BE_REBOUND);
         }
 
         // verify that the file is valid
         if (!file.exists()) {
-            throw new EmailException("file " + filePath + " doesn't exist");
+            throw new EmailException(ERROR_FILE + filePath + " doesn't exist");
         }
         if (!file.isFile()) {
-            throw new EmailException("file " + filePath + " isn't a normal file");
+            throw new EmailException(ERROR_FILE + filePath + " isn't a normal file");
         }
         if (!file.canRead()) {
-            throw new EmailException("file " + filePath + " isn't readable");
+            throw new EmailException(ERROR_FILE + filePath + " isn't readable");
         }
 
         return embed(new FileDataSource(file), file.getName(), cid);
@@ -491,7 +497,7 @@ public class HtmlEmail extends MultiPartEmail {
             if (url.toExternalForm().equals(urlDataSource.getURL().toExternalForm())) {
                 return inlineImage.getCid();
             }
-            throw new EmailException("embedded name '" + name + "' is already bound to URL " + urlDataSource.getURL() + "; existing names cannot be rebound");
+            throw new EmailException("embedded name '" + name + "' is already bound to URL " + urlDataSource.getURL() + ERROR_NAMES_CANNOT_BE_REBOUND);
         }
         // verify that the URL is valid
         try (InputStream inputStream = url.openStream()) {
