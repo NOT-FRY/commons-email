@@ -517,24 +517,7 @@ public abstract class Email {
             // update content type (and encoding)
             updateContentType(contentType);
 
-            if (content != null) {
-                if (EmailConstants.TEXT_PLAIN.equalsIgnoreCase(contentType) && content instanceof String) {
-                    // EMAIL-104: call explicitly setText to use default mime charset
-                    // (property "mail.mime.charset") in case none has been set
-                    message.setText(content.toString(), charset);
-                } else {
-                    message.setContent(content, contentType);
-                }
-            } else if (emailBody != null) {
-                if (contentType == null) {
-                    message.setContent(emailBody);
-                } else {
-                    message.setContent(emailBody, contentType);
-                }
-            } else {
-                message.setText("");
-            }
-
+            setEmailContent();
             setEmailHeaders();
 
             if (message.getSentDate() == null) {
@@ -548,6 +531,26 @@ public abstract class Email {
             }
         } catch (final MessagingException e) {
             throw new EmailException(e);
+        }
+    }
+
+    private void setEmailContent() throws MessagingException {
+        if (content != null) {
+            if (EmailConstants.TEXT_PLAIN.equalsIgnoreCase(contentType) && content instanceof String) {
+                // EMAIL-104: call explicitly setText to use default mime charset
+                // (property "mail.mime.charset") in case none has been set
+                message.setText(content.toString(), charset);
+            } else {
+                message.setContent(content, contentType);
+            }
+        } else if (emailBody != null) {
+            if (contentType == null) {
+                message.setContent(emailBody);
+            } else {
+                message.setContent(emailBody, contentType);
+            }
+        } else {
+            message.setText("");
         }
     }
 
