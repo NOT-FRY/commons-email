@@ -51,5 +51,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.exclusions=**/commons-email2-javax/** \
-          -Dsonar.scm.forceReloadAll=true \ #CI-based analysis gives incorrect commit date for the introduction of issue
+          -Dsonar.scm.forceReloadAll=true \
           -Dsonar.projectKey=NOT-FRY_commons-email
