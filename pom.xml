@@ -99,8 +99,6 @@
     <commons.jacoco.branchRatio>1.00</commons.jacoco.branchRatio>
     <commons.jacoco.lineRatio>1.00</commons.jacoco.lineRatio>
     <commons.jacoco.complexityRatio>1.00</commons.jacoco.complexityRatio>
-    <sonar.organization>not-fry</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
   <build>
