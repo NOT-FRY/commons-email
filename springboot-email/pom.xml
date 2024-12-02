@@ -42,6 +42,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- run mvn install on modules to be sure that dependency are solved locally and not from the remote repository-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email2-jakarta</artifactId>
@@ -78,6 +79,10 @@
     <profiles>
         <profile>
             <id>production</id>
+            <!--To generate a correct executable package-->
+            <properties>
+                <vaadin.productionMode>true</vaadin.productionMode>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>com.vaadin</groupId>
