@@ -11,6 +11,7 @@ RUN mvn clean install -f ./commons-email2-core/pom.xml #To install email2 as loc
 RUN mvn clean install -f ./commons-email2-jakarta/pom.xml
 RUN mvn clean package -Pproduction -f ./springboot-email/pom.xml #To deploy Vaadin in production mode
 
+#COPY has to be done in the image
 RUN cp ./springboot-email/target/springboot-email-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
