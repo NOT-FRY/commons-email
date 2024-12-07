@@ -36,5 +36,5 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
-          files: './commons-email2-core/target/site/jacoco/jacoco.xml','./commons-email2-jakarta/target/site/jacoco/jacoco.xml' # Specifica i percorsi dei report
+          files: ./commons-email2-core/target/site/jacoco/jacoco.xml,./commons-email2-jakarta/target/site/jacoco/jacoco.xml # Specifica i percorsi dei report
           fail_ci_if_error: true
