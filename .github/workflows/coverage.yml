@@ -31,6 +31,8 @@ jobs:
         run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       - name: Run tests and collect coverage
         run: mvn -B test
+      - name: Debug workspace
+        run: find . -name "jacoco.xml"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
