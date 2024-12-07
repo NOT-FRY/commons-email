@@ -32,7 +32,7 @@ jobs:
       - name: Run tests and collect coverage
         run: mvn -B test
       - name: Debug workspace
-        run: find . -name "jacoco.xml"
+        run: ls -R
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
