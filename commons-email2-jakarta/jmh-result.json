@@ -1,0 +1,228 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "org.apache.commons.mail2.jakarta.microbenchmarks.EmailBenchmarks.addAttachmentBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "C:\\Program Files\\Java\\jdk-17\\bin\\java.exe",
+        "jvmArgs" : [
+        ],
+        "jdkVersion" : "17.0.9",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "17.0.9+11-LTS-201",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "primaryMetric" : {
+            "score" : 0.2525747199174778,
+            "scoreError" : 0.001214844214866935,
+            "scoreConfidence" : [
+                0.25135987570261087,
+                0.25378956413234477
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.25143227539798124,
+                "50.0" : 0.25254771748691157,
+                "90.0" : 0.25363101129931503,
+                "95.0" : 0.2536609569936099,
+                "99.0" : 0.2536609569936099,
+                "99.9" : 0.2536609569936099,
+                "99.99" : 0.2536609569936099,
+                "99.999" : 0.2536609569936099,
+                "99.9999" : 0.2536609569936099,
+                "100.0" : 0.2536609569936099
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.25143227539798124,
+                    0.251628716080402,
+                    0.2518903344414224,
+                    0.2532728066180935,
+                    0.25238733867715263,
+                    0.2520817799279361,
+                    0.2527080962966705,
+                    0.2536609569936099,
+                    0.2533615000506611,
+                    0.2533233946908483
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "org.apache.commons.mail2.jakarta.microbenchmarks.EmailBenchmarks.addRecipientsBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "C:\\Program Files\\Java\\jdk-17\\bin\\java.exe",
+        "jvmArgs" : [
+        ],
+        "jdkVersion" : "17.0.9",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "17.0.9+11-LTS-201",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "primaryMetric" : {
+            "score" : 9.371256585600632E-4,
+            "scoreError" : 1.8308845963889784E-6,
+            "scoreConfidence" : [
+                9.352947739636742E-4,
+                9.389565431564521E-4
+            ],
+            "scorePercentiles" : {
+                "0.0" : 9.354499780169277E-4,
+                "50.0" : 9.371698942403065E-4,
+                "90.0" : 9.388413260160415E-4,
+                "95.0" : 9.388463141471172E-4,
+                "99.0" : 9.388463141471172E-4,
+                "99.9" : 9.388463141471172E-4,
+                "99.99" : 9.388463141471172E-4,
+                "99.999" : 9.388463141471172E-4,
+                "99.9999" : 9.388463141471172E-4,
+                "100.0" : 9.388463141471172E-4
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    9.354499780169277E-4,
+                    9.356595047894074E-4,
+                    9.361461392740108E-4,
+                    9.387964328363597E-4,
+                    9.3744447167156E-4,
+                    9.388463141471172E-4,
+                    9.379746556607471E-4,
+                    9.36895316809053E-4,
+                    9.364593428382209E-4,
+                    9.375844295572277E-4
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "org.apache.commons.mail2.jakarta.microbenchmarks.EmailBenchmarks.htmlEmailBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "C:\\Program Files\\Java\\jdk-17\\bin\\java.exe",
+        "jvmArgs" : [
+        ],
+        "jdkVersion" : "17.0.9",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "17.0.9+11-LTS-201",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "primaryMetric" : {
+            "score" : 0.2279845853849442,
+            "scoreError" : 0.001501149314592382,
+            "scoreConfidence" : [
+                0.22648343607035182,
+                0.2294857346995366
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.22694744961591626,
+                "50.0" : 0.22786881076752957,
+                "90.0" : 0.2303220589789589,
+                "95.0" : 0.2305565075122131,
+                "99.0" : 0.2305565075122131,
+                "99.9" : 0.2305565075122131,
+                "99.99" : 0.2305565075122131,
+                "99.999" : 0.2305565075122131,
+                "99.9999" : 0.2305565075122131,
+                "100.0" : 0.2305565075122131
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.22813017947139175,
+                    0.2305565075122131,
+                    0.22694744961591626,
+                    0.2282120221796713,
+                    0.22804128870673954,
+                    0.22788026921937996,
+                    0.22785735231567922,
+                    0.2276207241630111,
+                    0.22736964561562925,
+                    0.2272304150498105
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "org.apache.commons.mail2.jakarta.microbenchmarks.EmailBenchmarks.simpleEmailBenchmark",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "C:\\Program Files\\Java\\jdk-17\\bin\\java.exe",
+        "jvmArgs" : [
+        ],
+        "jdkVersion" : "17.0.9",
+        "vmName" : "Java HotSpot(TM) 64-Bit Server VM",
+        "vmVersion" : "17.0.9+11-LTS-201",
+        "warmupIterations" : 5,
+        "warmupTime" : "10 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "10 s",
+        "measurementBatchSize" : 1,
+        "primaryMetric" : {
+            "score" : 0.22375406733036826,
+            "scoreError" : 0.002091278514953288,
+            "scoreConfidence" : [
+                0.22166278881541499,
+                0.22584534584532154
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.22180347974394754,
+                "50.0" : 0.22345365270282602,
+                "90.0" : 0.22659756285514662,
+                "95.0" : 0.22677245471014493,
+                "99.0" : 0.22677245471014493,
+                "99.9" : 0.22677245471014493,
+                "99.99" : 0.22677245471014493,
+                "99.999" : 0.22677245471014493,
+                "99.9999" : 0.22677245471014493,
+                "100.0" : 0.22677245471014493
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.22320163502933238,
+                    0.22677245471014493,
+                    0.22502353616016196,
+                    0.22295059505237352,
+                    0.22344264131574837,
+                    0.2235702313429503,
+                    0.2234646640899037,
+                    0.22278715001670565,
+                    0.22180347974394754,
+                    0.22452428584241446
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+
