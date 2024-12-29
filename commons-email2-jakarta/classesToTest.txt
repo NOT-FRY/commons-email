@@ -1,0 +1,8 @@
+org.apache.commons.mail2.jakarta.resolver.DataSourceClassPathResolver
+org.apache.commons.mail2.jakarta.resolver.DataSourceFileResolver
+org.apache.commons.mail2.jakarta.resolver.DataSourceUrlResolver
+org.apache.commons.mail2.jakarta.resolver.DataSourceCompositeResolver
+org.apache.commons.mail2.jakarta.resolver.DataSourcePathResolver
+
+
+

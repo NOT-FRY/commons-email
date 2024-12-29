@@ -112,6 +112,7 @@
             <excludes>
               <exclude>src/test/resources/eml/**</exclude>
               <exclude>src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker</exclude>
+              <skip>true</skip>
             </excludes>
           </configuration>
         </plugin>
