@@ -22,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -1087,4 +1089,118 @@ public class EmailTest extends AbstractEmailTest {
         assertEquals(testInetEmailValid.size(), email.getBccAddresses().size());
     }
 
+    /**
+     * Test cases generated with GitHub copilot
+     */
+    @Test
+    void testAddBccInvalidEmail() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(EmailException.class, () -> email.addBcc("invalid-email"));
+    }
+
+    @Test
+    void testAddCcInvalidEmail() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(EmailException.class, () -> email.addCc("invalid-email"));
+    }
+
+    @Test
+    void testAddToInvalidEmail() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(EmailException.class, () -> email.addTo("invalid-email"));
+    }
+
+    @Test
+    void testSetFromInvalidEmail() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(EmailException.class, () -> email.setFrom("invalid-email"));
+    }
+
+    @Test
+    void testSetBounceAddressInvalidEmail() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(IllegalArgumentException.class, () -> email.setBounceAddress("invalid-email"));
+    }
+
+    @Test
+    void testSetHeadersNullName() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap(null, "value")));
+    }
+
+    @Test
+    void testSetHeadersNullValue() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(IllegalArgumentException.class, () -> email.setHeaders(Collections.singletonMap("name", null)));
+    }
+
+    @Test
+    void testSetSmtpPortNegative() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        assertThrows(IllegalArgumentException.class, () -> email.setSmtpPort(-1));
+    }
+
+    @Test
+    void testSetSmtpPortValid() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        email.setSmtpPort(25);
+        assertEquals("25", email.getSmtpPort());
+    }
+
+    @Test
+    void testSetCharsetValid() {
+        Email email = new Email() {
+            @Override
+            public Email setMsg(String msg) throws EmailException {
+                return this;
+            }
+        };
+        email.setCharset("UTF-8");
+        assertEquals("UTF-8", email.getCharsetName());
+    }
 }

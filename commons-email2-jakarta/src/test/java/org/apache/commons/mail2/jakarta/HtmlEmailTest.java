@@ -25,9 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import jakarta.mail.MessagingException;
 import org.apache.commons.mail2.core.EmailConstants;
 import org.apache.commons.mail2.core.EmailException;
 import org.apache.commons.mail2.core.EmailUtils;
@@ -519,4 +521,63 @@ public class HtmlEmailTest extends AbstractEmailTest {
         validateSend(fakeMailServer, strSubject, email.getText(), email.getFromAddress(), email.getToAddresses(), email.getCcAddresses(),
                 email.getBccAddresses(), true);
     }
+
+    /*
+    * Generated with GitHub Copilot
+    *
+    * */
+    @Test
+    void testEmbedInvalidUrl() {
+        HtmlEmail email = new HtmlEmail();
+        assertThrows(EmailException.class, () -> email.embed("invalid-url", "Invalid URL"));
+    }
+
+    @Test
+    void testSetInvalidHtmlMsg() {
+        HtmlEmail email = new HtmlEmail();
+        assertThrows(EmailException.class, () -> email.setHtmlMsg(""));
+    }
+
+    @Test
+    void testSetInvalidTextMsg() {
+        HtmlEmail email = new HtmlEmail();
+        assertThrows(EmailException.class, () -> email.setTextMsg(""));
+    }
+
+    @Test
+    void testEmbedFileWithInvalidPath() {
+        HtmlEmail email = new HtmlEmail();
+        File invalidFile = new File("invalid-path");
+        assertThrows(EmailException.class, () -> email.embed(invalidFile));
+    }
+
+    @Test
+    void testEmbedFileWithValidPath() throws EmailException, IOException {
+        HtmlEmail email = new HtmlEmail();
+        File validFile = File.createTempFile("testEmbedFile", "txt");
+        validFile.deleteOnExit();
+        String cid = email.embed(validFile);
+        assertNotNull(cid);
+    }
+
+    @Test
+    void testBuildMimeMessage() throws EmailException, MessagingException {
+        HtmlEmail email = new HtmlEmail();
+        email.setHostName("localhost");
+        email.setFrom("test@example.com");
+        email.addTo("recipient@example.com");
+        email.setSubject("Test Subject");
+        email.setHtmlMsg("<html><body><h1>Test</h1></body></html>");
+        email.setTextMsg("Test");
+
+        email.buildMimeMessage();
+        assertNotNull(email.getMimeMessage());
+    }
+
+    @Test
+    void testEmbedUrlWithInvalidName() {
+        HtmlEmail email = new HtmlEmail();
+        assertThrows(EmailException.class, () -> email.embed(new URL("http://www.example.com"), ""));
+    }
+
 }
