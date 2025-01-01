@@ -1,0 +1,30 @@
+name: push on Docker Hub
+
+on:
+  push:
+    branches:
+      - springboot-web-app
+  workflow_dispatch: # per l'esecuzione manuale
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        env:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u $username -p $password
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/commons-email2-demo:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/commons-email2-demo:latest
