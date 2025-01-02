@@ -219,7 +219,6 @@
     <module>commons-email2-javax</module>
     <module>commons-email2-bom</module>
     <module>commons-email2-distribution</module>
-    <module>springboot-email</module>
   </modules>
 
   <profiles>
