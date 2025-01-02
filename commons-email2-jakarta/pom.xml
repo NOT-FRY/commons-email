@@ -169,9 +169,7 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
 
-    <plugins>
       <!-- Plugin per JMH -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

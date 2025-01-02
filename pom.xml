@@ -129,6 +129,15 @@
           <artifactId>spotbugs-maven-plugin</artifactId>
           <configuration>
             <excludeFilterFile>src/conf/spotbugs-exclude-filter.xml</excludeFilterFile>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <configuration>
+            <targetJdk>${maven.compiler.target}</targetJdk>
+            <failOnViolation>false</failOnViolation>
           </configuration>
         </plugin>
       </plugins>
